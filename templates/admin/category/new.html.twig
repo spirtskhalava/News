@@ -1,0 +1,15 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Add New Category</h1>
+    <a href="{{ path('app_admin_category_index') }}" class="btn btn-secondary">Back to List</a>
+</div>
+
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_row(form.title) }}
+    </div>
+    <button type="submit" class="btn btn-success">Create Category</button>
+{{ form_end(form) }}
+{% endblock %}

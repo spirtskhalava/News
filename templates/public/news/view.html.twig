@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ news.title }} - News Portal{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+        <article>
+            <h1>{{ news.title }}</h1>
+            
+            <div class="mb-3">
+                <small class="text-muted">
+                    Published: {{ news.insertDate|date('Y-m-d H:i') }}
+                    | Categories: 
+                    {% for category in news.categories %}
+                        <a href="{{ path('app_news_category', {id: category.id}) }}" class="text-decoration-none">{{ category.title }}</a>
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </small>
+            </div>
+            
+            {% if news.picture %}
+                <div class="mb-4">
+                    <img src="{{ asset('uploads/' ~ news.picture) }}" class="img-fluid" alt="{{ news.title }}">
+                </div>
+            {% endif %}
+            
+            <div class="mb-4">
+                {{ news.content|nl2br }}
+            </div>
+        </article>
+        
+        <hr>
+        
+        <section>
+            <h3>Comments ({{ comments|length }})</h3>
+            
+            <!-- Add Comment Form -->
+            <div class="card mb-4">
+                <div class="card-header">Add a Comment</div>
+                <div class="card-body">
+                    {{ form_start(commentForm) }}
+                        <div class="mb-3">
+                            {{ form_row(commentForm.author) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(commentForm.content) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                    {{ form_end(commentForm) }}
+                </div>
+            </div>
+            
+            {% if comments is empty %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% else %}
+                {% for comment in comments %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ comment.author }}</h6>
+                            <p class="card-text">{{ comment.content|nl2br }}</p>
+                            <small class="text-muted">{{ comment.createdAt|date('Y-m-d H:i') }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}

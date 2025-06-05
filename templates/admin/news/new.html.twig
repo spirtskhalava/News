@@ -1,0 +1,67 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Add New News Article</h1>
+    <a href="{{ path('app_admin_news_index') }}" class="btn btn-secondary">Back to List</a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            <div class="mb-3">
+                {{ form_row(form.title) }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form_row(form.shortDescription) }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form_row(form.content) }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form_row(form.pictureFile) }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form_label(form.categories) }}
+                <div class="row">
+                    {% for category in form.categories %}
+                        <div class="col-md-4 mb-2">
+                            <div class="form-check">
+                                {{ form_widget(category) }}
+                                {{ form_label(category) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {{ form_errors(form.categories) }}
+            </div>
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success">Create News Article</button>
+                <a href="{{ path('app_admin_news_index') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Publishing Tips</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><strong>Title:</strong> Keep it concise and engaging</li>
+                    <li><strong>Short Description:</strong> Maximum 500 characters for preview</li>
+                    <li><strong>Content:</strong> Main article content</li>
+                    <li><strong>Picture:</strong> JPEG, PNG, or GIF (max 5MB)</li>
+                    <li><strong>Categories:</strong> Select at least one category</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

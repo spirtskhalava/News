@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - News Portal{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+        <h1>Latest News</h1>
+        
+        {% if categoriesWithNews is empty %}
+            <p>No news available at the moment.</p>
+        {% else %}
+            {% for item in categoriesWithNews %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>
+                            <a href="{{ path('app_news_category', {id: item.category.id}) }}" class="text-decoration-none">
+                                {{ item.category.title }}
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for news in item.news %}
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100">
+                                        {% if news.picture %}
+                                            <img src="{{ asset('uploads/' ~ news.picture) }}" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <a href="{{ path('app_news_view', {id: news.id}) }}" class="text-decoration-none">
+                                                    {{ news.title }}
+                                                </a>
+                                            </h5>
+                                            <p class="card-text">{{ news.shortDescription }}</p>
+                                            <small class="text-muted">{{ news.insertDate|date('Y-m-d H:i') }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-end">
+                            <a href="{{ path('app_news_category', {id: item.category.id}) }}" class="btn btn-primary">
+                                View all {{ item.category.title }} news
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

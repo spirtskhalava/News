@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.title }} - News Portal{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+        <h1>{{ category.title }}</h1>
+        
+        {% if news is empty %}
+            <p>No news found in this category.</p>
+        {% else %}
+            <div class="row">
+                {% for newsItem in news %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            {% if newsItem.picture %}
+                                <img src="{{ asset('uploads/' ~ newsItem.picture) }}" class="card-img-top" alt="{{ newsItem.title }}" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ path('app_news_view', {id: newsItem.id}) }}" class="text-decoration-none">
+                                        {{ newsItem.title }}
+                                    </a>
+                                </h5>
+                                <p class="card-text">{{ newsItem.shortDescription }}</p>
+                                <small class="text-muted">{{ newsItem.insertDate|date('Y-m-d H:i') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            {% if totalPages > 1 %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if currentPage > 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path('app_news_category', {id: category.id, page: currentPage - 1}) }}">Previous</a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for page in 1..totalPages %}
+                            <li class="page-item {{ page == currentPage ? 'active' : '' }}">
+                                <a class="page-link" href="{{ path('app_news_category', {id: category.id, page: page}) }}">{{ page }}</a>
+                            </li>
+                        {% endfor %}
+                        
+                        {% if currentPage < totalPages %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path('app_news_category', {id: category.id, page: currentPage + 1}) }}">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

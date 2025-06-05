@@ -1,0 +1,28 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Categories</h5>
+                <p class="card-text">Manage news categories</p>
+                <a href="{{ path('app_admin_category_index') }}" class="btn btn-primary">Manage Categories</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">News</h5>
+                <p class="card-text">Manage news articles</p>
+                <a href="{{ path('app_admin_news_index') }}" class="btn btn-primary">Manage News</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
